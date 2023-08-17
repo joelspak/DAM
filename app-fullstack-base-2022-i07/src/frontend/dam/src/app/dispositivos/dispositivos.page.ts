@@ -7,19 +7,42 @@ import { DispositivoService } from '../services/dispositivo.service'
   templateUrl: './dispositivos.page.html',
   styleUrls: ['./dispositivos.page.scss'],
 })
-export class DispositivosPage implements OnInit, OnDestroy {
+
+export class DispositivosPage implements OnInit {
+
+  dispositivos: any[] = []; 
+
+  constructor(private _dispositivoService: DispositivoService) {}
+
+  ngOnInit(): void {
+    this.obtenerDispositivos();
+  }
+
+  async obtenerDispositivos() {
+    try {
+      this.dispositivos = await this._dispositivoService.getListadoDispositivos();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+}
+
+
+/* export class DispositivosPage implements OnInit, OnDestroy {
 
   observable$: Observable<any>
   subscription: Subscription
+  //dispositivos: any[];
 
   constructor(private _dispositivoService: DispositivoService) {
-    this.observable$ = interval(1000)
+     this.observable$ = interval(1000)
 
-    const move_values = this.observable$.pipe(map(val => val+10))
+    const move_values = this.observable$.pipe(map((val: number) => val+10))
 
-    this.subscription = move_values.subscribe((value) => {
+    this.subscription = move_values.subscribe((value: any) => {
       console.log(value)
-    })
+    }) 
   }
 
   mouseMove = fromEvent(document, 'mousemove')
@@ -28,11 +51,11 @@ export class DispositivosPage implements OnInit, OnDestroy {
     console.log(`Coords: ${evt.clientX} X ${evt.clientY}`)
   })
 
-  async ngOnInit() {
+   async ngOnInit() {
     this.subscription.unsubscribe()
     this.subscription_mouse.unsubscribe()
 
-    await this._dispositivoService.getListadoDispositivos()
+     await this._dispositivoService.getListadoDispositivos()
       .then((dispositivos) => {
         for (let dispositivo of dispositivos) {
           console.log(dispositivo.nombre)
@@ -41,12 +64,13 @@ export class DispositivosPage implements OnInit, OnDestroy {
       })
       .catch((error) => {
         console.log(error)
-      })
+      }) 
+
     console.log('Me ejecuto primero')
   }
 
   subscribe () {
-    this.subscription = this.observable$.subscribe((integer) => {
+    this.subscription = this.observable$.subscribe((integer: any) => {
       console.log(integer)
     })
   }
@@ -57,6 +81,8 @@ export class DispositivosPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
-    this.subscription_mouse.unsubscribe()
-  }
-}
+   // this.subscription_mouse.unsubscribe()
+  } 
+
+
+} */
