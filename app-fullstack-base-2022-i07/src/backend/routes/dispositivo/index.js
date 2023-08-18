@@ -14,4 +14,48 @@ routerDispositivo.get('/', function(req, res) {
     });
 })
 
+routerDispositivo.get('/medicion/:id', function(req, res) {
+    const dispositivoId = req.params.id;
+
+    pool.query('SELECT * FROM Mediciones WHERE dispositivoId = ?', [dispositivoId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            return;
+        }
+        res.send(result);
+    });
+});
+
+const query_disp_con_ultima_medicion=
+`SELECT Dispositivos.dispositivoId, Dispositivos.nombre, Dispositivos.ubicacion, COALESCE(Mediciones.fecha, 'Sin mediciones') AS fecha_ultima_medicion, COALESCE(Mediciones.valor, 'Sin mediciones') AS valor_ultima_medicion
+FROM Dispositivos, Mediciones
+WHERE Dispositivos.dispositivoId = Mediciones.dispositivoId AND Mediciones.fecha = ( SELECT MAX(fecha)
+                                                                                        FROM Mediciones
+                                                                                        WHERE Mediciones.dispositivoId = Dispositivos.dispositivoId)
+ORDER BY Dispositivos.dispositivoId;`
+
+routerDispositivo.get('/ultima_medicion', function(req, res) {
+
+    pool.query(query_disp_con_ultima_medicion, function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            return;
+        }
+        res.send(result);
+    });
+});
+
+routerDispositivo.get('/log-riegos/:id', function(req, res) {
+    const dispositivoId = req.params.id;
+
+    pool.query('SELECT * FROM Log_Riegos WHERE dispositivoId = ?', [dispositivoId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            return;
+        }
+        res.send(result);
+    });
+});
+
+
 module.exports = routerDispositivo

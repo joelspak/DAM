@@ -12,15 +12,16 @@ export class DispositivosPage implements OnInit {
 
   dispositivos: any[] = []; 
 
+
   constructor(private _dispositivoService: DispositivoService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.obtenerDispositivos();
   }
 
   async obtenerDispositivos() {
     try {
-      this.dispositivos = await this._dispositivoService.getListadoDispositivos();
+      this.dispositivos = await this._dispositivoService.getDispConUltimaMedicion();
     } catch (error) {
       console.log(error);
     }
