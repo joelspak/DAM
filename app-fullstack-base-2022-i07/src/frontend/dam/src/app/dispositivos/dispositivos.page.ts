@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, fromEvent, interval, map } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { DispositivoService } from '../services/dispositivo.service'
 
 @Component({
@@ -10,80 +11,24 @@ import { DispositivoService } from '../services/dispositivo.service'
 
 export class DispositivosPage implements OnInit {
 
-  dispositivos: any[] = []; 
+  public dispositivoId: number = 0;
+  public evId: number = 0;
 
 
-  constructor(private _dispositivoService: DispositivoService) {}
+  constructor(private dispositivoService: DispositivoService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.obtenerDispositivos();
+    this.obtenerValvula();
+    this.dispositivoId=Number(this.route.snapshot.paramMap.get('id'));
   }
 
-  async obtenerDispositivos() {
+  async obtenerValvula() {
     try {
-      this.dispositivos = await this._dispositivoService.getDispConUltimaMedicion();
+      this.evId = await this.dispositivoService.getValvulas(this.dispositivoId);
+      console.log('la electroválvula es '+this.evId)
     } catch (error) {
       console.log(error);
     }
   }
 
 }
-
-
-/* export class DispositivosPage implements OnInit, OnDestroy {
-
-  observable$: Observable<any>
-  subscription: Subscription
-  //dispositivos: any[];
-
-  constructor(private _dispositivoService: DispositivoService) {
-     this.observable$ = interval(1000)
-
-    const move_values = this.observable$.pipe(map((val: number) => val+10))
-
-    this.subscription = move_values.subscribe((value: any) => {
-      console.log(value)
-    }) 
-  }
-
-  mouseMove = fromEvent(document, 'mousemove')
-
-  subscription_mouse = this.mouseMove.subscribe((evt: any) => {
-    console.log(`Coords: ${evt.clientX} X ${evt.clientY}`)
-  })
-
-   async ngOnInit() {
-    this.subscription.unsubscribe()
-    this.subscription_mouse.unsubscribe()
-
-     await this._dispositivoService.getListadoDispositivos()
-      .then((dispositivos) => {
-        for (let dispositivo of dispositivos) {
-          console.log(dispositivo.nombre)
-        }
-        console.log(dispositivos)
-      })
-      .catch((error) => {
-        console.log(error)
-      }) 
-
-    console.log('Me ejecuto primero')
-  }
-
-  subscribe () {
-    this.subscription = this.observable$.subscribe((integer: any) => {
-      console.log(integer)
-    })
-  }
-
-  unsubscribe () {
-    this.subscription.unsubscribe()
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe()
-   // this.subscription_mouse.unsubscribe()
-  } 
-
-
-} */

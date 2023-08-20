@@ -24,7 +24,7 @@ const routes: Routes = [
     component: LogRiegoComponent
   },
   { 
-    path: 'mediciones/:id', 
+    path: ':id/mediciones', 
     component: MedicionesComponent
   }
 ];
@@ -34,26 +34,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class DispositivosPageRoutingModule {}
-
-
-
-// import { NgModule } from '@angular/core';
-// import { RouterModule, Routes } from '@angular/router';
-// import { DetallesComponent } from './detalles/detalles.component';
-// import { ValvulasComponent } from './valvulas/valvulas.component';
-// import { MedicionesComponent } from './mediciones/mediciones.component';
-
-// import { DispositivosPage } from './dispositivos.page';
-
-// const routes: Routes = [
-//   { path: '', component: DispositivosPage},
-//   { path: 'dispositivos/detalles/:id', component: DetallesComponent },
-//   { path: 'dispositivos/valvulas/:id', component: ValvulasComponent },
-//   { path: 'dispositivos/mediciones/:id', component: MedicionesComponent }
-// ];
-
-// @NgModule({
-//   imports: [RouterModule.forChild(routes)],
-//   exports: [RouterModule]
-// })
-// export class DispositivosPageRoutingModule { }

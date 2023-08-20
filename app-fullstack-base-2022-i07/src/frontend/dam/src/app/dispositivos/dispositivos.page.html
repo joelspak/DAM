@@ -1,49 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Listado de Dispositivos
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content color="dark">
-  <ion-list lines="full">
-    <ion-item class="header">
-    <!-- esto es el encabezado -->
-      <ion-grid>
-        <ion-row>
-          <ion-col size="3"><h2>Nombre</h2></ion-col>
-          <ion-col size="3"><h2>Ubicación</h2></ion-col>
-          <ion-col size="3"><h2>Última Medición</h2></ion-col>
-          <ion-col size="3"><h2>Ver Detalles</h2></ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-
-    <!-- esto es los datos de cada dispositivo -->
-    <ion-item *ngFor="let dispositivo of dispositivos" class="disp">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="3">
-            <h2>{{ dispositivo.nombre }}</h2>
-          </ion-col>
-          <ion-col size="3">
-            <ion-icon name="location"></ion-icon>
-            <p class="ubicacion">{{ dispositivo.ubicacion }}</p>
-          </ion-col>
-          <ion-col size="3">
-            <h2>{{ dispositivo.fecha_ultima_medicion }}</h2>
-            <!-- Uso de PIPE -->
-            <h2>{{ dispositivo.valor_ultima_medicion | number: '1.1-2' }} Cb</h2>
-          </ion-col>
-          <ion-col size="3">
-            <ion-button fill="clear" expand="full" routerLink="/dispositivos/detalles/{{ dispositivo.dispositivoId }}">
-              <ion-icon name="arrow-forward"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+  <div class="item">
+    <app-grafico-sensor></app-grafico-sensor>
+  </div>
+  <div class='container'>
+    <app-valvulas></app-valvulas>
+    <ion-button [routerLink]="['mediciones']">VER MEDICIONES</ion-button>
+    <ion-button [routerLink]="['riegos']" >VER RIEGOS</ion-button>
+  </div>
 </ion-content>
 

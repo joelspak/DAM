@@ -1,3 +1,3 @@
-<p>
-  valvulas works!
-</p>
+<ion-button [color]="abrir ? 'danger' : 'default'" (click)="toggle()" expand="full">
+    {{ abrir ? 'CERRAR ELECTROVÁLVULA' : 'ABRIR ELECTROVÁLVULA' }}
+</ion-button>

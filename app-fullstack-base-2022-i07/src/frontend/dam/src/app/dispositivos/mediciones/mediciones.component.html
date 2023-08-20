@@ -1,3 +1,33 @@
-<p>
-  mediciones works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Listado de Mediciones para el Dispositivo {{ dispositivoId }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <ion-list lines="full">
+    <ion-item>
+    <!-- esto es el encabezado -->
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3"><h2 class="encabezado">Fecha</h2></ion-col>
+          <ion-col size="3"><h2 class="encabezado">Valor</h2></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <!-- esto es los datos de cada medición -->
+    <ion-item *ngFor="let medicion of mediciones">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3"><h2 class="ubicacion">{{ medicion.fecha | FormatoFecha }}</h2></ion-col>
+          <!-- Uso de PIPE -->
+          <ion-col size="3"><h2>{{ medicion.valor | number: '1.1-2' }} Cb</h2></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

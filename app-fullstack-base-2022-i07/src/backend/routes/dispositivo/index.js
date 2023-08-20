@@ -45,10 +45,36 @@ routerDispositivo.get('/ultima_medicion', function(req, res) {
     });
 });
 
+routerDispositivo.get('/ultima_medicion_valor/:id', function(req, res) {
+    const dispositivoId = req.params.id;
+
+    pool.query('SELECT valor FROM Mediciones WHERE dispositivoId = ? ORDER BY fecha DESC LIMIT 1', [dispositivoId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            return;
+        }
+        res.send(result);
+    });
+});
+
+
+
 routerDispositivo.get('/log-riegos/:id', function(req, res) {
     const dispositivoId = req.params.id;
 
     pool.query('SELECT * FROM Log_Riegos WHERE dispositivoId = ?', [dispositivoId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            return;
+        }
+        res.send(result);
+    });
+});
+
+routerDispositivo.get('/valvula/:id', function(req, res) {
+    const dispositivoId = req.params.id;
+
+    pool.query('SELECT electrovalvulaId FROM Dispositivos WHERE dispositivoId = ?', [dispositivoId], function(err, result, fields) {
         if (err) {
             res.status(400).send(err);
             return;
