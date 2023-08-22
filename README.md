@@ -22,12 +22,12 @@ El trabajo fue realizado en la carpeta app-fullstack-base-2022-i07.
 El gráfico mostrará la medición actual de presión de la válvula. De aquí usted puede ejecutar tres acciones:
 * Abrir la electroválvula: se ejecuta el riego, aliviará la presión del suelo y se guardarán los datos de apertura de válvula en la base de datos. Para cerrar la electroválvula, lo podrá hacer manualmente o puede esperar a que cierre sola automáticamente.Se guardarán luego la maniobra de cierre y la nueva medición en la base de datos.
 * Ver todas las mediciones del sensor.
-* 
-  ![image](https://github.com/joelspak/DAM/assets/63516957/4550546a-c813-4d76-a1c6-61fd73d557cd)
+  
+ - ![image](https://github.com/joelspak/DAM/assets/63516957/4550546a-c813-4d76-a1c6-61fd73d557cd)
 
 * Ver todos los riegos para esa válvula.
-* 
-![image](https://github.com/joelspak/DAM/assets/63516957/5a1243cc-9c3d-45e9-80e7-2591e09e67ec)
+  
+- ![image](https://github.com/joelspak/DAM/assets/63516957/5a1243cc-9c3d-45e9-80e7-2591e09e67ec)
 
 # Estructura Ionic del proyecto
 
