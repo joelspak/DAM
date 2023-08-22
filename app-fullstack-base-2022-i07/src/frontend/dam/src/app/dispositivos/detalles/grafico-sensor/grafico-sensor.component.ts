@@ -1,7 +1,8 @@
 //correr antes npm install --save highcharts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DispositivoService } from 'src/app/services/dispositivo.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription, interval } from 'rxjs';
 
 import * as Highcharts from 'highcharts';
 declare var require: any;
@@ -14,45 +15,52 @@ require('highcharts/modules/solid-gauge')(Highcharts);
   styleUrls: ['./grafico-sensor.component.scss'],
 })
 
-export class GraficoSensorComponent implements OnInit {
+export class GraficoSensorComponent implements OnInit, OnDestroy {
 
-  public valorObtenido: number=0;
-  public myChart: any = 0;
+  public valorObtenido: number=0; // para leer la última medición
+  public valorActual: number=0; // para comparar última medición vs actual (y en función de eso cambiar el gráfico)
+  public myChart: any = 0; 
 	private chartOptions: any = 0;
-  public dispositivoId: number = 0;
-  
+  public dispositivoId: number = 0; // el Id del dispositivo en el que se está viendo el gráfico
+  private subscripcion: Subscription | undefined;
+  public timeUpdate: number = 1000; // tiempo para actualizar la consulta de la última medición.
 
-  constructor(private dispositivoService: DispositivoService, private route: ActivatedRoute) { 
-    // setTimeout(()=>{
-    //   console.log("Cambio el valor del sensor");
-    //   this.valorObtenido=this.dispositivoService.getUltimaMedicion(this.dispositivoId);
-    //   console.log(this.valorObtenido)
-    //   //llamo al update del chart para refrescar y mostrar el nuevo valor
-    //   this.myChart.update({series: [{
-    //       name: 'Cb',
-    //       data: [this.valorObtenido],
-    //       tooltip: {
-    //           valueSuffix: ' Cb'
-    //       }
-    //   }]});
-    // },1000);
-  }
-
+  constructor(private dispositivoService: DispositivoService, private route: ActivatedRoute) {}
 
   async ngOnInit() {
     this.dispositivoId = Number(this.route.snapshot.paramMap.get('id'));
     console.log(this.dispositivoId);
+    this.actualizarValor();
+    await this.obtenerValor();
+  }
+
+  async obtenerValor() {
     try {
       const consulta = await this.dispositivoService.getUltimaMedicion(this.dispositivoId);
       this.valorObtenido = Number(consulta[0].valor);
       console.log(this.valorObtenido);
-      this.ionViewDidEnter();
+
+      if (this.valorObtenido !== this.valorActual) {
+        this.valorActual=this.valorObtenido;
+        this.generarChart();
+      }
+
     } catch (error) {
       console.log(error);
     }
   }
-  
 
+  actualizarValor() {
+    this.subscripcion = interval(this.timeUpdate).subscribe(async () => {
+      await this.obtenerValor();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subscripcion) {
+      this.subscripcion.unsubscribe();
+    }
+  }
 
   ionViewDidEnter() {
     this.generarChart();
@@ -99,7 +107,7 @@ export class GraficoSensorComponent implements OnInit {
             rotation: 'auto'
         },
         title: {
-            text: 'kPA'
+            text: 'Cb'
         },
         plotBands: [{
             from: 0,
@@ -118,7 +126,7 @@ export class GraficoSensorComponent implements OnInit {
     ,
   
     series: [{
-        name: 'Presión:',
+        name: 'Presión',
         data: [this.valorObtenido],
         tooltip: {
             valueSuffix: ' Cb'

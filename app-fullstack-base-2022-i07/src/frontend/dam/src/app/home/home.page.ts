@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, fromEvent, interval, map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { DispositivoService } from '../services/dispositivo.service';
-import { DispositivosPage } from '../dispositivos/dispositivos.page';
 
 @Component({
   selector: 'app-home',

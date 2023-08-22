@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
-
 import { HomePageRoutingModule } from './home-routing.module';
-
+import { ColorDirective } from '../directives/color.directive';
+import { ColorMouseDirective } from '../directives/color-mouse.directive';
 
 @NgModule({
   imports: [
@@ -15,7 +15,9 @@ import { HomePageRoutingModule } from './home-routing.module';
     HomePageRoutingModule
   ],
   declarations: [
-    HomePage
+    HomePage,
+    ColorDirective,
+    ColorMouseDirective
   ]
 })
 export class HomePageModule {}

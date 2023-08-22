@@ -13,7 +13,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="3"><h2 class="encabezado">Fecha</h2></ion-col>
-          <ion-col size="3"><h2 class="encabezado">Apertura</h2></ion-col>
+          <ion-col size="3"><h2 class="encabezado">Tipo de maniobra</h2></ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
@@ -23,8 +23,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="3"><h2>{{ riego.fecha | FormatoFecha }}</h2></ion-col>
-          <!-- Uso de PIPE -->
-          <ion-col size="3"><h2>{{ riego.apertura }}</h2></ion-col>
+          <ion-col>{{ riego.apertura === 1 ? 'Apertura de válvula' : 'Cierre de válvula' }}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>

@@ -10,23 +10,23 @@ const routes: Routes = [
   {
     path: '',
     component: DispositivosPage
-  },
-  { 
-    path: 'detalles/:id', 
-    component: DetallesComponent 
-  },
-  { 
-    path: 'valvulas/:id', 
-    component: ValvulasComponent
-  },  
-  { 
-    path: 'log-riego/:id', 
-    component: LogRiegoComponent
-  },
-  { 
-    path: ':id/mediciones', 
-    component: MedicionesComponent
   }
+  // { 
+  //   path: 'detalles/:id', 
+  //   component: DetallesComponent 
+  // },
+  // { 
+  //   path: 'valvulas/:id', 
+  //   component: ValvulasComponent
+  // },  
+  // { 
+  //   path: 'log-riego/:id', 
+  //   component: LogRiegoComponent
+  // },
+  // { 
+  //   path: ':id/mediciones', 
+  //   component: MedicionesComponent
+  // }
 ];
 
 @NgModule({

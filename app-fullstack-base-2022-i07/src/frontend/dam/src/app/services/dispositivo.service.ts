@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,19 @@ export class DispositivoService {
 
   getLogRiegos (id: number): Promise<any> {
     return firstValueFrom(this._http.get(`http://localhost:8000/dispositivo/log-riegos/${id}`))
+  }
+
+
+  sendAbrirElectrovalvula(electrovalvulaId: any): Promise<any> {
+    return firstValueFrom(this._http.post('http://localhost:8000/dispositivo/abrir', electrovalvulaId));
+  }
+
+  sendCerrarElectrovalvula_riegos(electrovalvulaId: any): Promise<any> {
+    return firstValueFrom(this._http.post('http://localhost:8000/dispositivo/cerrar', electrovalvulaId));
+  }
+
+  sendCerrarElectrovalvula_mediciones(dispositivoId: number, valor: number): Promise<any> {
+    return firstValueFrom(this._http.post('http://localhost:8000/dispositivo/cerrar_medicion', {dispositivoId, valor}));
   }
 
 }

@@ -60,9 +60,9 @@ routerDispositivo.get('/ultima_medicion_valor/:id', function(req, res) {
 
 
 routerDispositivo.get('/log-riegos/:id', function(req, res) {
-    const dispositivoId = req.params.id;
+    const evId = req.params.id;
 
-    pool.query('SELECT * FROM Log_Riegos WHERE dispositivoId = ?', [dispositivoId], function(err, result, fields) {
+    pool.query('SELECT * FROM Log_Riegos WHERE electrovalvulaId = ?', [evId], function(err, result, fields) {
         if (err) {
             res.status(400).send(err);
             return;
@@ -83,5 +83,48 @@ routerDispositivo.get('/valvula/:id', function(req, res) {
     });
 });
 
+
+routerDispositivo.post('/abrir', function(req,res) {
+    const electrovalvulaId = req.body[0].electrovalvulaId;
+
+    pool.query('INSERT INTO log_riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 1, ?)', [electrovalvulaId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            console.log('error al enviar datos de apertura');
+            return;
+        }
+        res.send(result);
+        console.log('datos de apertura enviados a DB');
+    });
+});
+
+routerDispositivo.post('/cerrar', function(req,res) {
+    const electrovalvulaId = req.body[0].electrovalvulaId;
+
+    pool.query('INSERT INTO log_riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 0, ?)', [electrovalvulaId], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            console.log('error al enviar datos de cierre');
+            return;
+        }
+        res.send(result);
+        console.log('datos de cierre enviados a DB');
+    });
+});
+
+routerDispositivo.post('/cerrar_medicion', function(req,res) {
+    const dispositivoId = req.body.dispositivoId;
+    const valor = req.body.valor;
+
+    pool.query('INSERT INTO Mediciones (fecha, dispositivoId, valor) VALUES (NOW(), ?, ?)', [dispositivoId, valor], function(err, result, fields) {
+        if (err) {
+            res.status(400).send(err);
+            console.log('error al enviar datos de cierre de medición');
+            return;
+        }
+        res.send(result);
+        console.log('datos de cierre enviados a DB de medición');
+    });
+});
 
 module.exports = routerDispositivo
