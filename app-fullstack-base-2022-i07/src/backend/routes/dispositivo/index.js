@@ -87,7 +87,7 @@ routerDispositivo.get('/valvula/:id', function(req, res) {
 routerDispositivo.post('/abrir', function(req,res) {
     const electrovalvulaId = req.body[0].electrovalvulaId;
 
-    pool.query('INSERT INTO log_riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 1, ?)', [electrovalvulaId], function(err, result, fields) {
+    pool.query('INSERT INTO Log_Riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 1, ?)', [electrovalvulaId], function(err, result, fields) {
         if (err) {
             res.status(400).send(err);
             console.log('error al enviar datos de apertura');
@@ -101,7 +101,7 @@ routerDispositivo.post('/abrir', function(req,res) {
 routerDispositivo.post('/cerrar', function(req,res) {
     const electrovalvulaId = req.body[0].electrovalvulaId;
 
-    pool.query('INSERT INTO log_riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 0, ?)', [electrovalvulaId], function(err, result, fields) {
+    pool.query('INSERT INTO Log_Riegos (fecha, apertura, electrovalvulaId) VALUES (NOW(), 0, ?)', [electrovalvulaId], function(err, result, fields) {
         if (err) {
             res.status(400).send(err);
             console.log('error al enviar datos de cierre');
